@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "Healix Backend",
+    "_postman_id": "2f08cb92-2e0b-4a59-afaa-8f7e89a3154f",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/health"
+      }
+    },
+    {
+      "name": "Signup",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/v1/auth/signup",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\":\"patient1@healix.app\",\n  \"password\":\"Secret1234\",\n  \"name\":\"Patient One\",\n  \"role\":\"patient\",\n  \"phone\":\"9999999999\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/v1/auth/login",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\":\"patient1@healix.app\",\n  \"password\":\"Secret1234\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Current User",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{baseUrl}}/api/v1/auth/me"
+      }
+    },
+    {
+      "name": "List Doctors",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/doctors?page=1&limit=10"
+      }
+    },
+    {
+      "name": "List Appointments",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{baseUrl}}/api/v1/appointments?page=1&limit=10"
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:4000" },
+    { "key": "token", "value": "" }
+  ]
+}
