@@ -12,10 +12,24 @@ import { swaggerSpec } from './docs/swagger.js'
 
 const app = express()
 
+if (env.nodeEnv === 'production') {
+  app.set('trust proxy', 1)
+}
+
 app.use(helmet())
 app.use(
   cors({
-    origin: env.frontendOrigin,
+    origin(origin, callback) {
+      if (!origin) {
+        callback(null, true)
+        return
+      }
+      if (env.corsOrigins.includes(origin)) {
+        callback(null, true)
+        return
+      }
+      callback(null, false)
+    },
     credentials: true,
   }),
 )

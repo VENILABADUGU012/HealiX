@@ -98,18 +98,34 @@ npm test
 
 ## Deployment
 
-### Render / Railway
-1. Deploy from `backend/` root.
-2. Set all env vars from `.env.example`.
-3. Start command: `npm start`.
+### Render (recommended)
 
-### Docker
+1. Push this repo to GitHub (or GitLab/Bitbucket).
+2. In [Render](https://render.com): **New** → **Blueprint**, connect the repo, apply `render.yaml` at the repository root.
+3. In the Render dashboard for **healix-backend**, open **Environment** and set the secret variables (marked `sync: false` in the blueprint):
+   - `FRONTEND_ORIGIN` — your Vite app URL(s), comma-separated if you use production + preview, e.g. `https://healix.vercel.app,https://healix-git-main-xxx.vercel.app`
+   - `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_JWT_SECRET` (from Supabase **Project Settings → API** and **JWT Secret**)
+4. Deploy. Health check: `GET https://<your-service>.onrender.com/api/v1/health`  
+   Render injects `PORT` automatically; the app listens on `process.env.PORT`.
+
+### Railway
+
+1. **New Project** → **Deploy from GitHub** → select the repo.
+2. **Add service** → **Dockerfile**: set root directory to `backend` (or use empty Dockerfile path with root `backend`).
+3. Add the same environment variables as in `.env.example`.
+4. Railway sets `PORT`; no change needed in code.
+
+### Docker (any host)
 
 ```bash
 cd backend
 docker build -t healix-backend .
 docker run -p 4000:4000 --env-file .env healix-backend
 ```
+
+### Frontend after deploy
+
+Set `VITE_API_BASE_URL` on Vercel to your backend public URL, e.g. `https://healix-backend.onrender.com`.
 
 ## Frontend Integration Notes
 
