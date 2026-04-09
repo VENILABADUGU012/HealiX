@@ -1,0 +1,5 @@
+backend/node_modules
+backend/.env
+
+# Empty nested folder if Windows could not remove it (delete manually when unlocked)
+HealiX/
